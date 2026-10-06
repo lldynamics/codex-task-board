@@ -1,0 +1,20 @@
+{
+  "name": "codex-task-board-local",
+  "interface": {
+    "displayName": "Task Board / 任务看板"
+  },
+  "plugins": [
+    {
+      "name": "codex-task-board",
+      "category": "Productivity",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-task-board"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      }
+    }
+  ]
+}

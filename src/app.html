@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title data-i18n="任务看板">任务看板</title>
+  <!-- APP_STYLE -->
+</head>
+<body>
+  <div class="workspace-shell">
+    <nav class="surface-tabs" aria-label="工作台" data-i18n-aria-label="工作台">
+      <button id="manual-tab" type="button" aria-controls="task-surface" data-i18n="任务工作台">任务工作台</button>
+      <span class="surface-note" data-i18n="Codex 任务自动分项目 · 只读同步">Codex 任务自动分项目 · 只读同步</span>
+    </nav>
+  <main id="manual-board" class="app sidebar-collapsed" aria-label="任务工作台" data-i18n-aria-label="任务工作台">
+    <aside id="project-sidebar" class="project-sidebar" aria-label="项目导航" hidden="" data-i18n-aria-label="项目导航">
+      <div class="sidebar-header"><strong data-i18n="任务看板">任务看板</strong><button id="sidebar-close" type="button" class="icon-button quiet" aria-label="关闭项目导航" title="关闭项目导航" data-i18n-aria-label="关闭项目导航" data-i18n-title="关闭项目导航"><span data-icon="close"></span></button></div>
+      <nav class="sidebar-nav" aria-label="任务导航" data-i18n-aria-label="任务导航">
+        <button id="sidebar-next" class="sidebar-nav-item" type="button" aria-current="page"><span data-i18n="待处理">待处理</span><span class="sidebar-count" data-sidebar-count="next" aria-label="待处理任务数量" data-i18n-aria-label="待处理任务数量">0</span></button>
+        <button id="sidebar-all" class="sidebar-nav-item" type="button"><span data-i18n="全部任务">全部任务</span><span class="sidebar-count" data-sidebar-count="all" aria-label="全部活动任务数量" data-i18n-aria-label="全部活动任务数量">0</span></button>
+        <button id="sidebar-automations" class="sidebar-nav-item" type="button"><span data-i18n="定时计划">定时计划</span></button>
+        <button id="sidebar-learning" class="sidebar-nav-item" type="button"><span data-i18n="学习安排">学习安排</span></button>
+        <button id="sidebar-archive" class="sidebar-nav-item" type="button"><span data-i18n="归档">归档</span><span class="sidebar-count" data-sidebar-count="archive" aria-label="归档任务数量" data-i18n-aria-label="归档任务数量">0</span></button>
+      </nav>
+      <div class="sidebar-project-heading"><h2 data-i18n="项目">项目</h2><button id="sidebar-new-project" type="button" class="quiet" disabled=""><span data-icon="folder-plus"></span><span data-i18n="新建项目">新建项目</span></button></div>
+      <label class="sidebar-search"><span class="sr-only" data-i18n="查找项目">查找项目</span><span data-icon="search"></span><input id="sidebar-project-search" type="search" placeholder="查找项目" autocomplete="off" data-i18n-placeholder="查找项目"></label>
+      <div class="sidebar-management" hidden="" aria-hidden="true">
+        <p class="sidebar-selection"><span data-i18n="当前项目">当前项目</span><span id="sidebar-selected-project" data-i18n="全部项目">全部项目</span></p>
+        <details id="project-menu" class="project-menu">
+          <summary aria-label="项目管理" aria-haspopup="true" data-i18n-aria-label="项目管理"><span data-i18n="项目管理">项目管理</span><span data-icon="down"></span></summary>
+          <div class="project-menu-actions" role="group" aria-label="项目管理操作" data-i18n-aria-label="项目管理操作">
+            <button id="new-project" type="button" disabled=""><span data-icon="folder-plus"></span><span data-i18n="新建项目">新建项目</span></button>
+            <button id="edit-project" type="button" disabled=""><span data-icon="pencil"></span><span data-i18n="编辑项目">编辑项目</span></button>
+            <button id="archive-project" type="button" disabled="" data-i18n="归档项目">归档项目</button>
+          </div>
+        </details>
+      </div>
+      <nav id="sidebar-projects" class="sidebar-projects" aria-label="项目列表" data-i18n-aria-label="项目列表"></nav>
+      <div class="sidebar-note"><button id="codex-tab" type="button" class="quiet sidebar-diagnostic" aria-controls="codex-panel" data-i18n="同步诊断">同步诊断</button></div>
+    </aside>
+    <button id="sidebar-backdrop" class="sidebar-backdrop" type="button" tabindex="-1" aria-label="关闭项目导航" hidden="" data-i18n-aria-label="关闭项目导航"></button>
+    <div class="app-main">
+    <header class="app-header">
+      <h1 id="main-title" class="sr-only" data-i18n="我的任务">我的任务</h1>
+      <p id="project-description" class="sr-only"></p>
+      <section class="toolbar" aria-label="任务工具栏" data-i18n-aria-label="任务工具栏">
+        <button id="sidebar-toggle" type="button" class="icon-button quiet" aria-label="项目导航" title="展开项目导航" aria-expanded="false" aria-controls="project-sidebar" data-i18n-aria-label="项目导航" data-i18n-title="展开项目导航"><span data-icon="list"></span></button>
+        <span id="sidebar-current-project" class="sidebar-current-project" data-i18n="待处理">待处理</span>
+        <label id="task-search-field" class="search-field"><span class="sr-only" data-i18n="查找任务">查找任务</span><span data-icon="search"></span><input id="search" type="search" placeholder="搜索任务、步骤或阻塞项" autocomplete="off" title="搜索任务（/）" aria-keyshortcuts="/" data-i18n-title="搜索任务（/）" data-i18n-placeholder="搜索任务、步骤或阻塞项"></label>
+        <div id="task-view-switch" class="view-switch" role="group" aria-label="任务视图" data-i18n-aria-label="任务视图"><button id="view-board" type="button" aria-pressed="false"><span data-icon="kanban"></span><span data-i18n="看板">看板</span></button><button id="view-list" type="button" aria-pressed="false"><span data-icon="list"></span><span data-i18n="列表">列表</span></button><button id="view-next" type="button" aria-pressed="true" hidden="" data-i18n="待处理">待处理</button></div>
+        <button id="filter-toggle" type="button" class="quiet" aria-expanded="false" aria-controls="filter-panel"><span data-icon="list"></span><span data-i18n="筛选">筛选</span></button>
+        <button id="refresh" type="button" class="icon-button quiet" aria-label="刷新记录" title="刷新记录" disabled="" data-i18n-aria-label="刷新记录" data-i18n-title="刷新记录"><span data-icon="refresh"></span></button>
+        <button id="data-toggle" class="quiet" type="button" aria-expanded="false" aria-controls="data-panel" data-i18n="备份与恢复">备份与恢复</button>
+        <button id="new-task" class="primary" type="button" title="新建任务（N）" aria-keyshortcuts="N" disabled="" data-i18n-title="新建任务（N）"><span data-icon="plus"></span><span data-i18n="新建任务">新建任务</span></button>
+        <section id="filter-panel" class="filter-panel" role="region" aria-label="筛选任务" hidden="" data-i18n-aria-label="筛选任务">
+          <div class="popover-heading"><strong data-i18n="筛选任务">筛选任务</strong><button id="filter-close" type="button" class="icon-button quiet" aria-label="关闭筛选" data-i18n-aria-label="关闭筛选"><span data-icon="close"></span></button></div>
+          <div class="filter-grid">
+            <label><span data-i18n="任务状态">任务状态</span><select id="status-filter"><option value="all" data-i18n="全部状态">全部状态</option></select></label>
+            <label><span data-i18n="记录类型">记录类型</span><select id="record-filter"><option value="all" data-i18n="全部记录">全部记录</option><option value="manual" data-i18n="手工记录">手工记录</option><option value="codex" data-i18n="Codex 自动记录 · 只读">Codex 自动记录 · 只读</option></select></label>
+            <label><span data-i18n="来源工具">来源工具</span><select id="source-filter"><option value="all" data-i18n="全部来源">全部来源</option></select></label>
+            <label class="wide"><span data-i18n="归档状态">归档状态</span><select id="archive-filter"><option value="active" data-i18n="活动任务">活动任务</option><option value="archived" data-i18n="已归档">已归档</option><option value="all" data-i18n="活动与归档">活动与归档</option></select></label>
+            <label class="wide" for="project-filter"><span data-i18n="查看项目">查看项目</span><select id="project-filter"></select></label>
+          </div>
+          <p class="helper" data-i18n="选择后即时筛选任务。">选择后即时筛选任务。</p>
+        </section>
+      <label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-main" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label></section>
+    </header>
+    <div id="task-surface" class="task-surface">
+    <section id="data-panel" class="data-panel" aria-label="备份与恢复" hidden="" data-i18n-aria-label="备份与恢复">
+      <p class="helper" data-i18n="导出项目、任务、今日焦点和学习时段。恢复会替换全部当前记录；恢复前会自动保留一份本机备份。">导出项目、任务、今日焦点和学习时段。恢复会替换全部当前记录；恢复前会自动保留一份本机备份。</p>
+      <div class="data-controls"><button id="data-export" type="button" data-i18n="导出备份">导出备份</button><label><span data-i18n="选择备份 JSON">选择备份 JSON</span><input id="data-file" type="file" accept="application/json,.json"></label></div>
+      <div id="restore-preview" hidden=""><p id="restore-summary" role="status"></p><p id="restore-session-warning" class="helper" hidden="" data-i18n="这份旧备份没有学习时段。恢复会清空当前全部学习时段。">这份旧备份没有学习时段。恢复会清空当前全部学习时段。</p><p class="helper" data-i18n="确认后替换全部记录。请核对备份日期与数量；不含焦点的旧备份会清空焦点。">确认后替换全部记录。请核对备份日期与数量；不含焦点的旧备份会清空焦点。</p><button id="restore-confirm" type="button" class="primary" data-i18n="确认替换并恢复">确认替换并恢复</button><button id="restore-cancel" type="button" class="quiet" data-i18n="取消恢复">取消恢复</button></div>
+      <div id="export-fallback" hidden=""><p class="helper" data-i18n="浏览器未提供下载支持，可复制下面的备份内容保存为 JSON 文件。">浏览器未提供下载支持，可复制下面的备份内容保存为 JSON 文件。</p><textarea id="export-json" aria-label="导出的备份 JSON" readonly="" data-i18n-aria-label="导出的备份 JSON"></textarea><button id="export-copy" type="button" data-i18n="复制备份">复制备份</button></div>
+    </section>
+    <div class="workbench-status" aria-label="记录与同步状态" data-i18n-aria-label="记录与同步状态">
+      <div id="task-filter-summary" class="filter-summary"><span id="count" class="count" aria-live="polite"></span><span id="project-count"></span><span id="filter-summary" class="sr-only"></span><div id="filter-chips" class="filter-chips" aria-label="生效筛选" data-i18n-aria-label="生效筛选"></div><button id="clear" class="quiet" type="button" data-i18n="清除筛选">清除筛选</button></div>
+      <p class="save-status" id="save-status" role="status" aria-live="polite"></p>
+      <section id="codex-board-status" class="codex-board-status" aria-label="Codex 自动同步来源" hidden="" data-i18n-aria-label="Codex 自动同步来源"><p id="codex-board-source" role="status" aria-live="polite"></p><p id="codex-board-interaction" role="status"></p><div id="codex-board-id-fallback" hidden=""><label><span data-i18n="Codex 原任务 ID">Codex 原任务 ID</span><input id="codex-board-thread-id" readonly=""></label></div></section>
+    </div>
+    <div class="feedback"><p class="error" id="data-error" role="alert" hidden=""></p><div class="retry-row" id="move-feedback" hidden=""><button id="move-retry" type="button" data-i18n="重试确认移动">重试确认移动</button><button id="move-dismiss" type="button" class="quiet" data-i18n="取消重试">取消重试</button></div><div class="retry-row" id="action-feedback" hidden=""><button id="action-retry" type="button" data-i18n="重试">重试</button><button id="action-dismiss" type="button" class="quiet" data-i18n="取消重试">取消重试</button></div><div id="expired-feedback" class="expired-feedback" role="region" aria-label="核对过期请求" hidden="" data-i18n-aria-label="核对过期请求"><p data-i18n="请求已超出可确认的历史窗口，无法判断先前是否保存。请先刷新并核对最新记录。结束重试只会放弃当前请求与草稿，不会重新提交。">请求已超出可确认的历史窗口，无法判断先前是否保存。请先刷新并核对最新记录。结束重试只会放弃当前请求与草稿，不会重新提交。</p><label><input id="expired-reviewed" type="checkbox"><span data-i18n="我已核对最新记录，确认结束本次重试">我已核对最新记录，确认结束本次重试</span></label><button id="expired-end" type="button" disabled="" data-i18n="结束重试">结束重试</button></div></div>
+    <div id="workspace" class="workspace">
+      <section class="board-area" aria-label="任务看板" data-i18n-aria-label="任务看板">
+        <section id="daily-focus" class="daily-focus" aria-label="管理今日焦点" hidden="" data-i18n-aria-label="管理今日焦点"></section>
+        <section id="schedule-toolbar" class="schedule-toolbar" aria-label="学习日历工具栏" hidden="" data-i18n-aria-label="学习日历工具栏">
+          <div id="learning-view-switch" class="view-switch" role="group" aria-label="学习安排视图" data-i18n-aria-label="学习安排视图"><button id="view-today" type="button" aria-pressed="false" data-i18n="今日">今日</button><button id="view-week" type="button" aria-pressed="false" data-i18n="周日历">周日历</button></div>
+          <div class="calendar-heading"><h2 id="calendar-range"></h2><div class="calendar-navigation"><button id="week-previous" type="button" class="quiet" aria-label="上一周" data-i18n="← 上一周" data-i18n-aria-label="上一周">← 上一周</button><button id="week-today" type="button" class="quiet" data-i18n="回今天">回今天</button><button id="week-next" type="button" class="quiet" aria-label="下一周" data-i18n="下一周 →" data-i18n-aria-label="下一周">下一周 →</button></div><button id="new-session" type="button" class="primary" title="新增学习时段（N）" aria-keyshortcuts="N" data-i18n="新增学习时段" data-i18n-title="新增学习时段（N）">新增学习时段</button></div>
+          <details class="calendar-options"><summary data-i18n="统计与时区">统计与时区</summary><div class="calendar-settings"><p id="calendar-summary" role="status" aria-live="polite"></p><label><span data-i18n="显示时区">显示时区</span><select id="display-time-zone" aria-label="日历显示时区" data-i18n-aria-label="日历显示时区"></select></label></div></details>
+          <p id="calendar-remaining" class="calendar-remaining" role="status" aria-live="polite" hidden=""></p>
+          <datalist id="session-time-zone-choices"><option value="Asia/Shanghai"></option><option value="Asia/Tokyo"></option><option value="America/New_York"></option><option value="Europe/London"></option><option value="UTC"></option></datalist>
+          <div class="learning-guide"><button id="learning-prompt-copy" type="button" class="quiet" data-i18n="复制学习排程提示">复制学习排程提示</button><textarea id="learning-prompt" hidden="" readonly="" aria-label="可复制的 Codex 学习排程提示" data-learning-prompt-key="请用 learning_board_context 读取我的任务和已有时段。
+我的学习目标：[填写目标]
+当前基础：[填写基础]
+每周可用时间：[填写日期和时间段]
+完成期限：[填写日期]
+时区：[例如 Asia/Shanghai]
+请用 learning_board_plan 给出可核对的批量学习安排，明确每个时段的目标与完成标准，避免与已有时段重叠，并在我确认后写入。" data-i18n-aria-label="可复制的 Codex 学习排程提示">请用 learning_board_context 读取我的任务和已有时段。
+我的学习目标：[填写目标]
+当前基础：[填写基础]
+每周可用时间：[填写日期和时间段]
+完成期限：[填写日期]
+时区：[例如 Asia/Shanghai]
+请用 learning_board_plan 给出可核对的批量学习安排，明确每个时段的目标与完成标准，避免与已有时段重叠，并在我确认后写入。</textarea></div>
+        </section><div id="cards" class="cards board-view" aria-label="任务列表" data-i18n-aria-label="任务列表"></div><p id="empty" class="empty"></p></section>
+      <aside id="editor-panel" class="editor-panel" aria-label="任务详情" hidden="" data-i18n-aria-label="任务详情">
+        <div class="editor-panel-header"><div class="editor-panel-heading"><button id="task-edit-read" type="button" class="reader-back" hidden=""><span aria-hidden="true">←</span><span data-i18n="返回阅读">返回阅读</span></button><span id="editor-kind" data-i18n="任务详情">任务详情</span></div><div class="editor-panel-tools"><button id="editor-refresh" type="button" class="quiet" aria-label="刷新当前记录" title="刷新当前记录" data-i18n-aria-label="刷新当前记录" data-i18n-title="刷新当前记录"><span data-icon="refresh"></span><span data-i18n="刷新">刷新</span></button><button id="editor-close" type="button" class="icon-button quiet" aria-label="关闭详情" title="关闭详情" data-i18n-aria-label="关闭详情" data-i18n-title="关闭详情"><span data-icon="close"></span></button><label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-editor" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label></div></div>
+        <div class="editor-notices">
+        <p class="error" id="editor-error" role="alert" hidden=""></p>
+        <div id="merge-conflicts" class="merge-conflicts" role="region" aria-label="选择冲突字段" hidden="" data-i18n-aria-label="选择冲突字段"></div>
+        <div id="discard-dialog" class="discard-dialog" role="alertdialog" aria-labelledby="discard-title" hidden=""><strong id="discard-title" data-i18n="有尚未保存的修改">有尚未保存的修改</strong><p data-i18n="离开会放弃本次修改。">离开会放弃本次修改。</p><div class="discard-actions"><button id="keep-editing" type="button" class="primary" data-i18n="继续编辑">继续编辑</button><label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-discard" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label><button id="discard-edits" type="button" data-i18n="放弃修改">放弃修改</button></div></div>
+        </div>
+        <form id="project-form" class="editor" aria-labelledby="project-editor-title" hidden="" novalidate="">
+          <h3 id="project-editor-title" data-i18n="新建项目">新建项目</h3><p class="helper" data-i18n="记录项目的目标与范围。">记录项目的目标与范围。</p>
+          <div class="form-fields"><div class="form-grid"><label class="wide"><span data-i18n="项目名称">项目名称</span><input id="project-name" maxlength="120" required="" placeholder="例如：产品迭代、学习计划" autocomplete="off" data-i18n-placeholder="例如：产品迭代、学习计划"></label><label class="wide"><span data-i18n="项目说明（选填）">项目说明（选填）</span><textarea id="project-description-input" maxlength="4000" placeholder="记录目标、范围或安排" data-i18n-placeholder="记录目标、范围或安排"></textarea></label></div></div>
+          <div class="actions"><span class="editor-save-state" data-editor-save-status="" role="status" aria-live="polite"></span><button data-cancel="" type="button" data-i18n="取消">取消</button><button class="primary" type="submit" title="保存到本机（Ctrl+Enter 或 ⌘Enter）" aria-keyshortcuts="Control+Enter Meta+Enter" disabled="" data-i18n="保存到本机" data-i18n-title="保存到本机（Ctrl+Enter 或 ⌘Enter）">保存到本机</button></div>
+        </form>
+        <section id="task-read-view" class="task-read-view" aria-labelledby="task-read-title" hidden="">
+          <div class="task-read-content">
+            <h3 id="task-read-title" class="task-read-title" tabindex="-1"></h3>
+            <p id="task-read-unavailable" class="task-read-unavailable" role="status" hidden=""></p>
+            <div id="task-read-record">
+              <dl class="task-read-meta"><div><dt data-i18n="所属项目">所属项目</dt><dd id="task-read-project"></dd></div><div><dt data-i18n="任务状态">任务状态</dt><dd><span id="task-read-status"></span></dd></div><div><dt data-i18n="优先级">优先级</dt><dd><span id="task-read-priority"></span></dd></div><div><dt data-i18n="截止日期">截止日期</dt><dd id="task-read-date"></dd></div></dl>
+              <section class="task-read-section" aria-labelledby="task-read-step-heading"><h4 id="task-read-step-heading" data-i18n="当前步骤">当前步骤</h4><p id="task-read-step"></p></section>
+              <section class="task-read-section" aria-labelledby="task-read-blocker-heading"><h4 id="task-read-blocker-heading" data-i18n="阻塞项">阻塞项</h4><p id="task-read-blocker"></p></section>
+              <div class="task-read-provenance"><p id="task-read-source" class="helper"></p><p id="task-read-updated" class="helper"></p><div id="task-read-link"></div></div>
+            </div>
+            <p id="task-read-draft" class="helper" role="status" hidden="" data-i18n="有未保存的修改，继续编辑可恢复输入；离开详情前会提示确认。">有未保存的修改，继续编辑可恢复输入；离开详情前会提示确认。</p>
+          </div>
+          <div class="task-read-actions"><button id="task-read-close" data-cancel="" type="button" data-i18n="关闭">关闭</button><button id="task-read-edit" class="primary" type="button" data-i18n="编辑任务">编辑任务</button></div>
+        </section>
+        <form id="task-form" class="editor" aria-labelledby="task-editor-title" hidden="" novalidate="">
+          <h3 id="task-editor-title" data-i18n="新建任务">新建任务</h3><p class="helper" data-i18n="手动更新进度，保存后写入本机。">手动更新进度，保存后写入本机。</p>
+          <div class="form-fields"><div class="form-grid">
+            <label class="wide"><span data-i18n="任务名称">任务名称</span><input id="task-title" maxlength="200" required="" placeholder="这项任务要完成什么？" autocomplete="off" data-i18n-placeholder="这项任务要完成什么？"></label>
+            <label><span data-i18n="所属项目">所属项目</span><select id="task-project" required=""></select></label><label><span data-i18n="任务状态">任务状态</span><select id="task-status" required=""></select></label>
+            <label><span data-i18n="优先级">优先级</span><select id="task-priority"><option value="low" data-i18n="低">低</option><option value="normal" selected="" data-i18n="普通">普通</option><option value="high" data-i18n="高">高</option><option value="urgent" data-i18n="紧急">紧急</option></select></label><label><span data-i18n="截止日期（选填）">截止日期（选填）</span><input id="task-due-date" type="date"></label>
+            <label class="wide"><span data-i18n="来源工具（选填）">来源工具（选填）</span><input id="task-source" maxlength="120" placeholder="例如：Codex、个人笔记" autocomplete="off" data-i18n-placeholder="例如：Codex、个人笔记"></label>
+            <label class="wide"><span data-i18n="当前步骤（选填）">当前步骤（选填）</span><textarea id="task-step" rows="3" maxlength="4000" placeholder="当前进展，或下一步从哪里继续" data-i18n-placeholder="当前进展，或下一步从哪里继续"></textarea></label>
+            <label class="wide"><span data-i18n="阻塞项（选填）">阻塞项（选填）</span><textarea id="task-blocker" rows="3" maxlength="4000" placeholder="等待的决定、需要的材料或遇到的问题" data-i18n-placeholder="等待的决定、需要的材料或遇到的问题"></textarea></label>
+            <label class="wide"><span data-i18n="原对话链接（选填）">原对话链接（选填）</span><input id="task-conversation" maxlength="2048" type="url" placeholder="https://…" autocomplete="off"></label>
+          </div><p id="task-updated" class="helper"></p><div id="task-link"></div></div>
+          <div class="actions"><span class="editor-save-state" data-editor-save-status="" role="status" aria-live="polite"></span><button data-cancel="" type="button" data-i18n="取消">取消</button><button class="primary" type="submit" title="保存到本机（Ctrl+Enter 或 ⌘Enter）" aria-keyshortcuts="Control+Enter Meta+Enter" disabled="" data-i18n="保存到本机" data-i18n-title="保存到本机（Ctrl+Enter 或 ⌘Enter）">保存到本机</button></div>
+        </form>
+      </aside>
+      <aside id="schedule-panel" class="editor-panel schedule-panel" aria-label="学习时段" hidden="" data-i18n-aria-label="学习时段">
+        <div class="editor-panel-header"><span data-i18n="学习时段">学习时段</span><div class="editor-panel-tools"><button id="schedule-refresh" type="button" class="quiet" data-i18n="刷新记录">刷新记录</button><button id="schedule-close" type="button" class="icon-button quiet" aria-label="关闭学习时段" data-i18n-aria-label="关闭学习时段">×</button><label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-schedule" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label></div></div>
+        <div id="schedule-notices" class="editor-notices"><p id="schedule-error" class="error" role="alert" hidden=""></p><p id="session-lock-note" class="helper" role="status" hidden=""></p><div id="schedule-review" class="merge-conflicts" hidden=""><p id="schedule-review-message"></p><label><input id="schedule-reviewed" type="checkbox"><span data-i18n="我已核对最新记录，使用保留的输入保存">我已核对最新记录，使用保留的输入保存</span></label></div><div id="schedule-discard-dialog" class="discard-dialog" role="alertdialog" aria-labelledby="schedule-discard-title" hidden=""><strong id="schedule-discard-title" data-i18n="有尚未保存的学习安排">有尚未保存的学习安排</strong><p data-i18n="离开会放弃本次修改。">离开会放弃本次修改。</p><div class="discard-actions"><button id="schedule-keep-editing" type="button" class="primary" data-i18n="继续编辑">继续编辑</button><label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-schedule-discard" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label><button id="schedule-discard-edits" type="button" data-i18n="放弃修改">放弃修改</button></div></div></div>
+        <form id="session-form" class="editor" aria-labelledby="session-editor-title" novalidate="">
+          <h3 id="session-editor-title" data-i18n="新增学习时段">新增学习时段</h3><p class="helper" data-i18n="本次学习完成只记录这个时段。任务整体状态仍在任务详情中管理。">本次学习完成只记录这个时段。任务整体状态仍在任务详情中管理。</p>
+          <div class="form-fields"><div id="session-context" class="session-context" aria-label="打开时的学习安排" hidden="" data-i18n-aria-label="打开时的学习安排"><p data-i18n="打开时的学习安排">打开时的学习安排</p><dl><div><dt data-i18n="时间">时间</dt><dd id="session-context-time"></dd></div><div><dt data-i18n="本次目标">本次目标</dt><dd id="session-context-objective"></dd></div><div><dt data-i18n="完成标准">完成标准</dt><dd id="session-context-criteria"></dd></div></dl></div><div class="form-grid"><label class="wide"><span data-i18n="原任务">原任务</span><select id="session-task" required=""></select></label></div>
+          <div id="session-timing-fields" class="form-grid"><label><span data-i18n="开始日期">开始日期</span><input id="session-date" type="date" required=""></label><label><span data-i18n="开始时间">开始时间</span><input id="session-start" type="time" required=""></label><label><span data-i18n="结束日期">结束日期</span><input id="session-end-date" type="date" required=""></label><label><span data-i18n="结束时间">结束时间</span><input id="session-end" type="time" required=""></label><label class="wide"><span data-i18n="时段时区（IANA）">时段时区（IANA）</span><input id="session-zone" list="session-time-zone-choices" value="Asia/Shanghai" autocomplete="off" required=""></label><label class="wide"><span data-i18n="本次目标（选填）">本次目标（选填）</span><textarea id="session-objective" maxlength="4000" placeholder="这个时段学习什么？" data-i18n-placeholder="这个时段学习什么？"></textarea></label><label class="wide"><span data-i18n="完成标准（选填）">完成标准（选填）</span><textarea id="session-criteria" maxlength="4000" placeholder="如何判断这次学习完成？" data-i18n-placeholder="如何判断这次学习完成？"></textarea></label></div>
+          <div id="session-feedback-fields" class="form-grid" hidden=""><label class="wide"><span data-i18n="本次学习结果">本次学习结果</span><select id="session-outcome"><option value="completed" data-i18n="本次学习完成">本次学习完成</option><option value="not_completed" data-i18n="本次学习未完成">本次学习未完成</option></select></label><div id="session-reasons" class="session-reasons wide" hidden=""><p id="session-reasons-label" data-i18n="未完成原因（选填）">未完成原因（选填）</p><div class="session-reason-options" role="group" aria-labelledby="session-reasons-label"><button type="button" data-feedback-reason="时间不够" data-i18n="时间不够">时间不够</button><button type="button" data-feedback-reason="内容太难" data-i18n="内容太难">内容太难</button><button type="button" data-feedback-reason="临时有事" data-i18n="临时有事">临时有事</button></div></div><label class="wide"><span data-i18n="实际分钟（选填）">实际分钟（选填）</span><input id="session-minutes" type="number" min="0" max="1440" step="1" inputmode="numeric"></label><label class="wide"><span data-i18n="本次反馈（选填）">本次反馈（选填）</span><textarea id="session-feedback" maxlength="4000" placeholder="完成情况、遇到的问题和下次调整" data-i18n-placeholder="完成情况、遇到的问题和下次调整"></textarea></label></div></div>
+          <div class="actions"><span id="session-save-state" class="editor-save-state" role="status" aria-live="polite"></span><button id="session-cancel" type="button" data-i18n="取消">取消</button><button id="session-submit" type="submit" class="primary" data-i18n="保存时段">保存时段</button></div>
+        </form>
+      </aside>
+    </div>
+    <footer class="app-footer"><details class="context-note"><summary data-i18n="手工记录本机保存 · Codex 自动任务只读">手工记录本机保存 · Codex 自动任务只读</summary><p class="notice" id="notice" role="note"></p></details><span id="mode-tag" class="mode-tag" data-i18n="只读预览 / 等待连接">只读预览 / 等待连接</span><span id="connection" role="status" data-i18n="正在加载组件…">正在加载组件…</span></footer>
+    <noscript><p data-i18n="请启用 JavaScript 查看看板。独立组件预览不能本机保存。">请启用 JavaScript 查看看板。独立组件预览不能本机保存。</p></noscript>
+    </div>
+  <section id="codex-panel" class="codex-panel" aria-labelledby="codex-surface-title" hidden="">
+    <header class="codex-header">
+      <div><h1 id="codex-surface-title" tabindex="-1" data-i18n="同步诊断">同步诊断</h1><p id="codex-surface-description" class="helper" data-i18n="核对数据来源、读取范围与错误；Codex 任务统一显示在工作台。">核对数据来源、读取范围与错误；Codex 任务统一显示在工作台。</p></div>
+      <div class="codex-header-actions"><label class="locale-picker"><span class="sr-only" data-i18n="语言">语言</span><select id="language-codex" data-locale-select="" aria-label="切换界面语言" data-i18n-aria-label="切换界面语言"><option value="zh">中文</option><option value="en">English</option></select></label><button id="codex-back-to-board" type="button" class="quiet" data-i18n="返回工作台">返回工作台</button><button id="codex-refresh" type="button" disabled="" data-i18n="刷新 Codex 状态">刷新 Codex 状态</button></div>
+    </header>
+    <p id="codex-poll-status" class="helper" role="status"></p>
+    <section class="codex-connection" aria-label="Codex 数据来源" data-i18n-aria-label="Codex 数据来源"><p id="codex-connection" role="status" aria-live="polite" data-i18n="尚未读取 Codex 状态">尚未读取 Codex 状态</p><p id="codex-observed" class="helper"></p><p id="codex-scope" class="helper"></p><p id="codex-read-error" class="error" role="alert" hidden=""></p></section>
+    <section id="codex-diagnostics" class="codex-diagnostics" aria-label="同步来源诊断" data-i18n-aria-label="同步来源诊断"><p id="codex-thread-source" class="codex-source-note" role="status"></p><p id="codex-diagnostic-automation-source" class="codex-source-note" role="status"></p><p id="codex-diagnostic-count" class="helper" role="status"></p></section>
+    <section class="codex-automations" aria-labelledby="codex-automations-heading"><div class="codex-section-heading"><h2 id="codex-automations-heading" tabindex="-1" data-i18n="定时计划">定时计划</h2><span id="codex-automation-count" class="helper"></span></div><p id="codex-automation-source" class="codex-source-note" role="status"></p><p class="helper" data-i18n="计划启用不代表正在运行。下次运行时间仅在来源提供时展示。">计划启用不代表正在运行。下次运行时间仅在来源提供时展示。</p><div id="codex-automation-list" class="codex-automation-list"></div><p id="codex-automation-empty" class="empty"></p><button id="codex-automation-more" type="button" hidden="" data-i18n="再显示 50 项计划">再显示 50 项计划</button>
+      <div id="codex-request-fallback" hidden=""><label><span data-i18n="可复制的计划请求">可复制的计划请求</span><textarea id="codex-request-text" readonly="" aria-label="可复制的计划请求" data-i18n-aria-label="可复制的计划请求"></textarea></label></div><p id="codex-copy-status" role="status" aria-live="polite"></p>
+    </section>
+    <p class="codex-footer helper" data-i18n="时间按看板的显示时区显示。面板可见时每 5 秒读取缓存；采集频率以你的采集器配置为准，以来源采集时间为准。来源断线时逐步延长重试间隔。">时间按看板的显示时区显示。面板可见时每 5 秒读取缓存；采集频率以你的采集器配置为准，以来源采集时间为准。来源断线时逐步延长重试间隔。</p>
+  </section>
+    </div>
+  </main>
+  </div>
+  <!-- APP_SCRIPT -->
+
+
+</body></html>
